@@ -24,12 +24,20 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
+        /* 
+          Setting base font size to 15px (default is usually 16px) 
+          gives the whole app a slightly "zoomed out", refined look.
+        */
+        html {
+            font-size: 15px; 
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: var(--text-main);
             margin: 0;
-            padding: 2rem;
+            padding: 2rem 1rem; /* Reduced horizontal padding for mobile */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -41,12 +49,13 @@
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 3rem 2.5rem;
+            padding: 2.5rem 2rem; /* Zoomed out padding */
             border-radius: 16px;
             border: 1px solid var(--glass-border);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 500px; 
+            max-width: 520px; 
             width: 100%;
+            box-sizing: border-box;
         }
 
         h2 {
@@ -57,7 +66,7 @@
             gap: 12px;
             text-align: center;
             color: #c4b5fd;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-top: 0;
             margin-bottom: 2rem;
             letter-spacing: 1px;
@@ -65,14 +74,14 @@
         }
 
         .nepal-icon {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             stroke: #c4b5fd;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             width: 100%;
         }
 
@@ -81,7 +90,7 @@
             font-weight: 500;
             margin-bottom: 0.5rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -91,16 +100,15 @@
             display: block;
         }
 
-        /* The Fix: Target only visible inputs so the hidden Flatpickr input doesn't render as an empty box */
         input:not([type="hidden"]) {
             width: 100%;
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 1rem;
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: white;
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
@@ -113,13 +121,13 @@
 
         button {
             width: 100%;
-            padding: 1rem;
+            padding: 0.85rem;
             margin-top: 1rem;
             background: linear-gradient(to right, var(--primary), #6d28d9);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -136,7 +144,7 @@
         }
 
         #resultsArea {
-            margin-top: 2.5rem;
+            margin-top: 2rem;
             opacity: 0;
             transform: translateY(10px);
             transition: all 0.5s ease;
@@ -152,7 +160,7 @@
         .greeting-text {
             font-family: 'Cinzel', serif;
             color: #f8fafc;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             text-align: center;
             margin-bottom: 1.5rem;
             margin-top: 0;
@@ -162,7 +170,7 @@
         .number-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: 12px;
             margin-bottom: 1rem;
             border-left: 4px solid var(--primary);
@@ -176,7 +184,7 @@
         .number-title {
             font-family: 'Cinzel', serif;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 0.75rem;
             display: flex;
             justify-content: space-between;
@@ -184,7 +192,7 @@
         }
 
         .big-number {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #c4b5fd;
         }
@@ -194,7 +202,7 @@
         }
 
         .number-meaning {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.6;
         }
@@ -204,6 +212,49 @@
             font-size: 0.85rem;
             margin-top: 0.5rem;
             display: none;
+        }
+
+        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem; /* Less padding on small screens */
+            }
+
+            .container {
+                padding: 1.5rem 1.25rem; /* Tighter container padding */
+                border-radius: 12px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .nepal-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            .number-card {
+                padding: 1rem;
+            }
+
+            .number-title {
+                font-size: 1.1rem;
+                /* Stack the title and number on very small screens to avoid collision */
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .big-number {
+                font-size: 1.4rem;
+            }
+
+            .greeting-text {
+                font-size: 1.1rem;
+                margin-bottom: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -235,13 +286,13 @@
             
             <div class="number-card">
                 <div class="number-title">
-                    Life Path <span class="big-number" id="lifePathResult"></span>
+                    <span>Life Path</span> <span class="big-number" id="lifePathResult"></span>
                 </div>
                 <div class="number-meaning" id="lifePathMeaning"></div>
             </div>
             <div class="number-card">
                 <div class="number-title">
-                    Destiny <span class="big-number" id="destinyResult"></span>
+                    <span>Destiny</span> <span class="big-number" id="destinyResult"></span>
                 </div>
                 <div class="number-meaning" id="destinyMeaning"></div>
             </div>
@@ -252,7 +303,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        // Initialize the dynamic calendar
         flatpickr("#dobInput", {
             altInput: true,
             altFormat: "F j, Y",
