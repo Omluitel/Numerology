@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrology Nepal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Flatpickr (Dynamic Calendar) Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 500px; /* Slightly wider to accommodate longer text */
+            width: 100%;
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            color: #c4b5fd;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nepal-icon {
+            width: 32px;
+            height: 32px;
+            stroke: #c4b5fd;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Fixed Flatpickr wrapper alignment */
+        .flatpickr-wrapper {
+            width: 100%;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem 1rem !important;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 8px !important;
+            color: white !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1rem;
+            background: linear-gradient(to right, var(--primary), #6d28d9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px var(--primary);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #resultsArea {
+            margin-top: 2.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+            display: none;
+        }
+
+        #resultsArea.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .greeting-text {
+            font-family: 'Cinzel', serif;
+            color: #f8fafc;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .number-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .number-card:last-child {
+            margin-bottom: 0;
+            border-left-color: #ec4899;
+        }
+
+        .number-title {
+            font-family: 'Cinzel', serif;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .big-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c4b5fd;
+        }
+
+        .number-card:last-child .big-number {
+            color: #fbcfe8;
+        }
+
+        .number-meaning {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .error {
+            color: #fca5a5;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>
+            <svg class="nepal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 21V3l14 7-9 1 11 8H5"></path>
+            </svg>
+            Astrology Nepal
+        </h2>
+        
+        <div class="form-group">
+            <label for="nameInput">Full Birth Name</label>
+            <input type="text" id="nameInput" placeholder="e.g., Jane Doe">
+        </div>
+
+        <div class="form-group">
+            <label for="dobInput">Date of Birth</label>
+            <input type="date" id="dobInput" placeholder="Select Date...">
+            <div id="errorMsg" class="error">Please enter both your name and date of birth.</div>
+        </div>
+
+        <button onclick="generateProfile()">Reveal My Numbers</button>
+
+        <div id="resultsArea">
+            <h3 class="greeting-text" id="greetingMessage"></h3>
+            
+            <div class="number-card">
+                <div class="number-title">
+                    Life Path <span class="big-number" id="lifePathResult"></span>
+                </div>
+                <div class="number-meaning" id="lifePathMeaning"></div>
+            </div>
+            <div class="number-card">
+                <div class="number-title">
+                    Destiny <span class="big-number" id="destinyResult"></span>
+                </div>
+                <div class="number-meaning" id="destinyMeaning"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flatpickr Library -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        // Initialize the dynamic calendar
+        flatpickr("#dobInput", {
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+            maxDate: "today",
+            disableMobile: "true"
+        });
+
+        const letterValues = {
+            a:1, j:1, s:1, b:2, k:2, t:2, c:3, l:3, u:3,
+            d:4, m:4, v:4, e:5, n:5, w:5, f:6, o:6, x:6,
+            g:7, p:7, y:7, h:8, q:8, z:8, i:9, r:9
+        };
+
+        const meanings = {
+            1: "The Leader: Independent, pioneering, and driven by individuality. You possess a strong sense of self and an innate drive to forge your own path. You thrive when taking the initiative and are naturally equipped to lead others through innovation, courage, and unwavering determination.",
+            2: "The Peacemaker: Diplomatic, harmonious, and highly intuitive. You are the ultimate mediator, blessed with the ability to see all sides of a situation. Your greatest strength lies in cooperation, empathy, and creating lasting balance in both your personal and professional relationships.",
+            3: "The Communicator: Creative, expressive, and optimistic. You are a natural artist and storyteller with a vibrant energy that draws people in. Your life's purpose involves inspiring others through self-expression, joy, and a vivid imagination that brings color to the world.",
+            4: "The Builder: Practical, hard-working, and focused on stability. You are the bedrock of any community, valuing logic, order, and steady progress. Your methodical approach ensures that whatever you build—whether a business, a family, or a system—will stand the test of time.",
+            5: "The Adventurer: Dynamic, freedom-loving, and adaptable to change. Routine is your enemy. You are meant to explore the world, embrace unpredictability, and learn through a diverse range of experiences. Your boundless curiosity makes you a catalyst for progress.",
+            6: "The Nurturer: Responsible, protective, and deeply caring. You are driven by a profound sense of duty to your loved ones and your community. Your path is one of service, healing, and creating a sanctuary of warmth and unshakeable harmony for those around you.",
+            7: "The Seeker: Analytical, spiritual, and driven by a search for truth. You possess a deeply philosophical mind and a thirst for knowledge that goes beyond the surface. You naturally gravitate toward the mysteries of the universe, science, and the esoteric.",
+            8: "The Powerhouse: Ambitious, authoritative, and focused on material success. You have a natural aptitude for business, finance, and large-scale management. Your journey is about mastering the balance between spiritual growth and material abundance, using your power to create a lasting impact.",
+            9: "The Humanitarian: Compassionate, generous, and globally conscious. You hold a deeply ingrained desire to make the world a better place. Your life is often defined by dedicating your talents to philanthropy, art, or social justice on a broad, selfless scale.",
+            11: "Master Number (The Illuminator): Highly intuitive, spiritually aware, and visionary. You carry the compassionate traits of the number 2, but amplified by a higher spiritual calling. You act as a conduit for profound insights and possess the potential to inspire millions with your perspective.",
+            22: "Master Number (The Master Builder): Capable of turning grand dreams into reality. Combining the practicality of the 4 with profound visionary insight, you are uniquely equipped to manifest massive, enduring projects that benefit humanity on a global scale.",
+            33: "Master Number (The Master Teacher): Focused on healing, compassion, and uplifting others. You possess an extraordinarily high level of selfless devotion. Your purpose is to guide and nurture the spiritual growth of those around you, acting as a beacon of unconditional love."
+        };
+
+        function reduceNumber(num) {
+            while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
+                num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+            }
+            return num;
+        }
+
+        function calculateLifePath(dobString) {
+            const digits = dobString.replace(/-/g, '');
+            let sum = 0;
+            for (let char of digits) { sum += parseInt(char); }
+            return reduceNumber(sum);
+        }
+
+        function calculateDestiny(nameString) {
+            const cleanName = nameString.toLowerCase().replace(/[^a-z]/g, '');
+            let sum = 0;
+            for (let char of cleanName) {
+                if (letterValues[char]) sum += letterValues[char];
+            }
+            return reduceNumber(sum);
+        }
+
+        function formatName(name) {
+            return name.trim().split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).join(' ');
+        }
+
+        function generateProfile() {
+            const rawName = document.getElementById('nameInput').value;
+            const dob = document.getElementById('dobInput').value; 
+            const errorMsg = document.getElementById('errorMsg');
+            const resultsArea = document.getElementById('resultsArea');
+
+            if (!rawName || !dob) {
+                errorMsg.style.display = 'block';
+                resultsArea.classList.remove('visible');
+                setTimeout(() => { if(!resultsArea.classList.contains('visible')) resultsArea.style.display = 'none'; }, 500);
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+
+            const formattedName = formatName(rawName);
+            document.getElementById('greetingMessage').innerText = `Dear ${formattedName},`;
+
+            const lifePath = calculateLifePath(dob);
+            const destiny = calculateDestiny(rawName);
+
+            document.getElementById('lifePathResult').innerText = lifePath;
+            document.getElementById('lifePathMeaning').innerText = meanings[lifePath] || "Meaning not found.";
+
+            document.getElementById('destinyResult').innerText = destiny;
+            document.getElementById('destinyMeaning').innerText = meanings[destiny] || "Meaning not found.";
+
+            resultsArea.style.display = 'block';
+            setTimeout(() => {
+                resultsArea.classList.add('visible');
+            }, 10);
+        }
+    </script>
+</body>
+</html>
